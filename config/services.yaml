@@ -4,6 +4,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    document_validators:
+        de: App\Document\Validator\GermanDocumentValidator
+        es: App\Document\Validator\SpanishDocumentValidator
+        fr: App\Document\Validator\FrenchDocumentValidator
+        pl: App\Document\Validator\PolishDocumentValidator
+        it: App\Document\Validator\ItalianDocumentValidator
+        uk: App\Document\Validator\BritishDocumentValidator
+        lt: App\Document\Validator\LithuanianDocumentValidator
 
 services:
     # default configuration for services in *this* file
@@ -25,3 +33,39 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Storage\StorageInterface:
+        class: App\Storage\ArrayStorage
+        shared: true
+    
+    App\Document\Validator\DocumentValidatorManager:
+        factory: ['App\Document\Validator\DocumentValidatorManagerFactory', 'create']
+        arguments:
+            $config: '%document_validators%'
+
+    App\Command\IdentificationRequestProcessCommand:
+        arguments:
+            $inputCsvPath: '%kernel.project_dir%/data/input.csv'
+    
+    App\Document\Validator\GermanDocumentValidator:
+        public: true
+
+    App\Document\Validator\SpanishDocumentValidator:
+        public: true
+
+    App\Document\Validator\FrenchDocumentValidator:
+        public: true
+
+    App\Document\Validator\PolishDocumentValidator:
+        public: true
+
+    App\Document\Validator\ItalianDocumentValidator:
+        public: true
+
+    App\Document\Validator\BritishDocumentValidator:
+        public: true
+    
+    App\Document\Validator\LithuanianDocumentValidator:
+        public: true
+        
+    
