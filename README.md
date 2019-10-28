@@ -1,5 +1,9 @@
 # PS Validation Assignment
 
+## Framework/Libraries
+
+I used `Symfony 4.3.5 (Latest LTS)` for this project. For valiation I used Syfony validator.
+
 ## How to run the `Command`
 
 Follow the steps to run the Symfony `Command`.
