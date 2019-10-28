@@ -26,7 +26,7 @@ class ValidDocumentTypeValidatorTest extends ConstraintValidatorTestCase
     ) {
         $this->validator->validate($type, new ValidDocumentType([
             'issueDate' => $issueDate,
-            'types' => $types,            
+            'types' => $types,
         ]));
 
 

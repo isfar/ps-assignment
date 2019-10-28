@@ -23,6 +23,11 @@ class Weekdays
         Day::FRI,
     ];
 
+    /**
+     * @param array $days
+     * @param string $startDate
+     * @param string $endDate
+     */
     public function __construct(
         array $days,
         string $startDate = null,

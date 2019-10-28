@@ -4,12 +4,20 @@ namespace App\Document;
 
 class Blacklist
 {
+    /** @var array */
     private $documentTypes;
 
+    /** @var string */
     private $min;
 
+    /** @var string */
     private $max;
 
+    /**
+     * @param array $documentTypes  array of instances of DocumentType
+     * @param string $min optional
+     * @param string $max optional
+     */
     public function __construct(
         array $documentTypes,
         ?string $min = null,

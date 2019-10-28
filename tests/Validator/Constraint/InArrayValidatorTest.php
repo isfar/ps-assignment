@@ -14,7 +14,7 @@ class InArrayValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @dataProvider getValidateData
+     * @dataProvider provideValidateData
      */
     public function testValidate($array, $value, $violates)
     {
@@ -30,10 +30,9 @@ class InArrayValidatorTest extends ConstraintValidatorTestCase
                 ->setParameter('{{ message }}', "'$value' not in array.")
                 ->assertRaised();
         }
-
     }
 
-    public function getValidateData()
+    public function provideValidateData()
     {
         return [
             [
@@ -53,6 +52,4 @@ class InArrayValidatorTest extends ConstraintValidatorTestCase
             ],
         ];
     }
-
 }
-

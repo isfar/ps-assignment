@@ -31,8 +31,7 @@ class WorkdayValidator extends ConstraintValidator
             $endDate = $workingDays->getEndDate();
 
             if (in_array($day, $workingDays->getDays())) {
-                if (
-                    ($startDate && $endDate && $date >= $startDate && $date <= $endDate)
+                if (($startDate && $endDate && $date >= $startDate && $date <= $endDate)
                     || ($startDate && !$endDate && $date >= $startDate)
                     || (!$startDate && $endDate && $date <= $endDate)
                     || (!$startDate && !$endDate)
@@ -44,5 +43,4 @@ class WorkdayValidator extends ConstraintValidator
 
         return false;
     }
-        
 }

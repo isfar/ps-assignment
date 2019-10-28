@@ -2,9 +2,10 @@
 
 namespace App\Tests\Validator\Constraint;
 
+use App\Document\RequestLimit;
 use App\Storage\ArrayStorage;
+use App\Util\Day;
 use App\Validator\Constraint\NotTooManyAttempt;
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class NotTooManyAttemptTest extends TestCase
@@ -12,28 +13,29 @@ class NotTooManyAttemptTest extends TestCase
     public function testOptionsCanBeSet()
     {
         $today = '2019-10-25';
-        $maxAllowed = 2;
         $message = 'too_many_attempts';
-        $numWorkdays = 5;
         $workdays = [
-            'Mon',
-            'Tue',
-            'Wed'
+            Day::MON,
+            Day::TUE,
+            Day::WED
         ];
+
+        $limit = new RequestLimit(
+            2,
+            5,
+            $workdays
+        );
+
         $storage = new ArrayStorage();
 
         $notTooManyAttempt = new NotTooManyAttempt([
             'today' => $today,
-            'maxAllowed' => $maxAllowed,            
-            'numWorkdays' => $numWorkdays,            
-            'workdays' => $workdays,            
+            'limit' => $limit,
             'message' => $message,
             'storage' => $storage,
         ]);
 
-        $this->assertEquals($maxAllowed, $notTooManyAttempt->maxAllowed);
-        $this->assertEquals($numWorkdays, $notTooManyAttempt->numWorkdays);
-        $this->assertEquals($workdays, $notTooManyAttempt->workdays);
+        $this->assertEquals($limit, $notTooManyAttempt->limit);
         $this->assertEquals($message, $notTooManyAttempt->message);
         $this->assertEquals($today, $notTooManyAttempt->today);
         $this->assertEquals($storage, $notTooManyAttempt->storage);

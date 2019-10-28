@@ -6,6 +6,7 @@ use App\Document\CountryCode;
 use App\Document\Document;
 use App\Document\DocumentType;
 use App\Document\Length;
+use App\Document\RequestLimit;
 use App\Document\ValidityPeriod;
 use App\Document\Weekdays;
 use App\Storage\StorageInterface;
@@ -25,10 +26,6 @@ class AbstractDocumentValidator implements DocumentValidatorInterface
     const DEFAULT_EXPIRY_PERIOD = 5;
 
     const DEFAULT_ID_LENGTH = 8;
-
-    const DEFAULT_REQUEST_LIMIT = 2;
-
-    const DEFAULT_REQUEST_WORKDAY_LIMIT = 5;
 
     const DEFAULT_DATE_FORMAT = "Y-m-d";
 
@@ -64,9 +61,8 @@ class AbstractDocumentValidator implements DocumentValidatorInterface
     /** @var array */
     private $blacklists;
 
+    /** @var RequestLimit */
     private $requestLimit;
-
-    private $requestWorkdayLimit;
 
     /** @var StorageInterface */
     private $storage;
@@ -131,9 +127,7 @@ class AbstractDocumentValidator implements DocumentValidatorInterface
                     'ownerId' => [
                         new NotTooManyAttempt([
                             'today' => $this->getDocument()->getRequestDate(),
-                            'maxAllowed' => $this->getRequestLimit(),
-                            'numWorkdays' => $this->getRequestWorkdayLimit(),
-                            'workdays' => Weekdays::DEFAULT,
+                            'limit' => $this->getRequestLimit(),
                             'storage' => $this->getStorage(),
                             'message' => 'request_limit_exceeded',
                         ]),
@@ -232,28 +226,6 @@ class AbstractDocumentValidator implements DocumentValidatorInterface
         ];
     }
 
-    public function getRequestLimit(): ?int
-    {
-        return $this->requestLimit !== null ? $this->requestLimit : self::DEFAULT_REQUEST_LIMIT;
-    }
-
-    public function setRequestLimit(?int $requestLimit): self
-    {
-        $this->requestLimit = $requestLimit;
-        return $this;
-    }
-
-    public function getRequestWorkdayLimit(): ?int
-    {
-        return $this->requestWorkdayLimit !== null ? $this->requestWorkdayLimit : self::DEFAULT_REQUEST_WORKDAY_LIMIT;
-    }
-
-    public function setRequestWorkdayLimit(?int $requestWorkdayLimit): self
-    {
-        $this->requestWorkdayLimit = $requestWorkdayLimit;
-        return $this;
-    }
-
     public function getValidityPeriods(): array
     {
         return $this->validityPeriods ? $this->validityPeriods : [
@@ -278,6 +250,28 @@ class AbstractDocumentValidator implements DocumentValidatorInterface
     public function setBlacklists(?array $blacklists): self
     {
         $this->blacklists = $blacklists;
+        return $this;
+    }
+
+    /**
+     * Get the value of requestLimit
+     */
+    public function getRequestLimit(): ?RequestLimit
+    {
+        return $this->requestLimit ? $this->requestLimit : new RequestLimit(
+            RequestLimit::DEFAULT_MAX_ATTEMPT,
+            RequestLimit::DEFAULT_MAX_WORKDAYS,
+            self::DEFAULT_WORKDAYS
+        );
+    }
+
+    /**
+     * Set the value of requestLimit
+     * @return  self
+     */
+    public function setRequestLimit(?RequestLimit $requestLimit): self
+    {
+        $this->requestLimit = $requestLimit;
         return $this;
     }
 }

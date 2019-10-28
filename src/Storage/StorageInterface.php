@@ -8,4 +8,3 @@ interface StorageInterface
     public function get(string $key): ?array;
     public function getByOffset(string $key, int $offset): ?string;
 }
-

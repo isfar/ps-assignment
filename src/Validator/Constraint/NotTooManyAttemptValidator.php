@@ -11,13 +11,13 @@ class NotTooManyAttemptValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        $date = $constraint->storage->getByOffset($value, -$constraint->maxAllowed);
+        $date = $constraint->storage->getByOffset($value, -$constraint->limit->getMaxAttempt());
 
         if ($date && $this->exceedsLimit(
             new DateTimeImmutable($date),
             new DateTimeImmutable($constraint->today),
-            $constraint->numWorkdays,
-            $constraint->workdays
+            $constraint->limit->getMaxWorkdays(),
+            $constraint->limit->getWorkdays()
         )) {
             $this
                 ->context
@@ -33,8 +33,7 @@ class NotTooManyAttemptValidator extends ConstraintValidator
         DateTimeImmutable $today,
         int $numWorkdays,
         array $workdays
-    ): bool
-    {
+    ): bool {
         $startNextValidDate = (new DateTime())->setTimestamp($from->setTime(0, 0, 0)->getTimestamp());
         $today = (new DateTime())->setTimestamp($today->setTime(23, 59, 59)->getTimestamp());
 

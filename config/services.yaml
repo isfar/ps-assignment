@@ -43,10 +43,6 @@ services:
         arguments:
             $config: '%document_validators%'
 
-    App\Command\IdentificationRequestProcessCommand:
-        arguments:
-            $inputCsvPath: '%kernel.project_dir%/data/input.csv'
-    
     App\Document\Validator\GermanDocumentValidator:
         public: true
 

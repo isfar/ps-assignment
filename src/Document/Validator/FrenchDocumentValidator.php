@@ -9,7 +9,7 @@ class FrenchDocumentValidator extends AbstractDocumentValidator
     public function __construct(
         StorageInterface $storage
     ) {
-        parent::__construct($storage);    
+        parent::__construct($storage);
 
         parent::setDocumentTypes(array_merge(parent::getDocumentTypes(), [
             new DocumentType(DocumentType::DRIVING_LICENSE),

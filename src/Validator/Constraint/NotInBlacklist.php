@@ -16,8 +16,7 @@ class NotInBlacklist extends Constraint
 
     public function __construct(?array $options = null)
     {
-        if (
-            is_array($options)
+        if (is_array($options)
             && array_key_exists('blacklists', $options)
             && !is_array($options['blacklists'])
         ) {
@@ -26,7 +25,11 @@ class NotInBlacklist extends Constraint
 
         foreach ($options['blacklists'] as $key => $blacklists) {
             if (!$blacklists instanceof Blacklist) {
-                throw new InvalidOptionsException('The element at #' . $key . '("blacklists") option is not an instance of "' . Blacklist::class . '".', $options);
+                throw new InvalidOptionsException(
+                    'The element at #' . $key . '("blacklists") option is not an instance of "'
+                        . Blacklist::class . '".',
+                    $options
+                );
             }
         }
 

@@ -10,7 +10,7 @@ class PolishDocumentValidator extends AbstractDocumentValidator
     public function __construct(
         StorageInterface $storage
     ) {
-        parent::__construct($storage);    
+        parent::__construct($storage);
 
         parent::setDocumentTypes([
             new DocumentType(DocumentType::IDENTITY_CARD),

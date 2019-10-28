@@ -10,7 +10,7 @@ class GermanDocumentValidator extends AbstractDocumentValidator
     public function __construct(
         StorageInterface $storage
     ) {
-        parent::__construct($storage);    
+        parent::__construct($storage);
 
         parent::setValidityPeriods(array_merge(
             parent::getValidityPeriods(),

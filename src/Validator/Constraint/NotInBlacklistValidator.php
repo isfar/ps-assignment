@@ -30,8 +30,7 @@ class NotInBlacklistValidator extends ConstraintValidator
             $documentTypes = $blacklist->getDocumentTypes();
 
             if (in_array($documentType, $documentTypes)) {
-                if (
-                    ($min && $max && $documentId >= $min && $documentId <= $max)
+                if (($min && $max && $documentId >= $min && $documentId <= $max)
                     || ($min && !$max && $documentId >= $min)
                     || (!$min && $max && $documentId <= $max)
                 ) {
@@ -42,5 +41,4 @@ class NotInBlacklistValidator extends ConstraintValidator
 
         return false;
     }
-        
 }

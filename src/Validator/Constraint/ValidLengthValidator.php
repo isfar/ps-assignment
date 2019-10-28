@@ -32,8 +32,7 @@ class ValidLengthValidator extends ConstraintValidator
             $documentTypes = $length->getDocumentTypes();
 
             if (empty($documentTypes) || in_array($documentType, $documentTypes)) {
-                if (
-                    ($validFrom && $validTill && $issueDate >= $validFrom && $issueDate <= $validTill)
+                if (($validFrom && $validTill && $issueDate >= $validFrom && $issueDate <= $validTill)
                     || ($validFrom && !$validTill && $issueDate >= $validFrom)
                     || (!$validFrom && $validTill && $issueDate <= $validTill)
                     || (!$validFrom && !$validTill)

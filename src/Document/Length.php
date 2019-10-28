@@ -6,14 +6,24 @@ class Length
 {
     const DEFAULT_LENGTH = 8;
 
+    /** @var int */
     private $length;
 
+    /** @var array */
     private $documentTypes;
 
+    /** @var string */
     private $validFrom;
 
+    /** @var string */
     private $validTill;
 
+    /**
+     * @param int $length
+     * @param array $documentTypes array containing instances of strings
+     * @param string $validFrom
+     * @param string $validTill
+     */
     public function __construct(
         int $length,
         ?array $documentTypes = null,

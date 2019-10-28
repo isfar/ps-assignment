@@ -15,7 +15,6 @@ class WorkdayTest extends TestCase
         new Workday([
             'workdays' => "Not an array"
         ]);
-
     }
 
     public function testInvalidWorkdaysTriggersException()

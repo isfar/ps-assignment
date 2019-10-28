@@ -28,7 +28,7 @@ class ValidLengthValidatorTest extends ConstraintValidatorTestCase
     ) {
         $this->validator->validate($length, new ValidLength([
             'issueDate' => $issueDate,
-            'lengths' => $lengths,            
+            'lengths' => $lengths,
             'documentType' => DocumentType::IDENTITY_CARD,
         ]));
 

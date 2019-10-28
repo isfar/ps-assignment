@@ -4,12 +4,67 @@ namespace App\Tests\Validator\Constraint;
 
 use App\Document\Blacklist;
 use App\Document\DocumentType;
+use App\Validator\Constraint\NotInBlacklist;
 use App\Validator\Constraint\NotInBlacklistValidator;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use ReflectionMethod;
 
-class NotInBlacklistValidatorTest extends TestCase
+class NotInBlacklistValidatorTest extends ConstraintValidatorTestCase
 {
+    public function createValidator()
+    {
+        return new NotInBlacklistValidator();
+    }
+
+    /**
+     * @dataProvider provideValidateData
+     */
+    public function testValidate(
+        $documentId,
+        $documentType,
+        $blacklists,
+        $violates
+    ) {
+        $this->validator->validate($documentId, new NotInBlacklist([
+            'documentType' => $documentType,
+            'blacklists' => $blacklists,
+        ]));
+
+
+        if (!$violates) {
+            $this->assertNoViolation();
+        } else {
+            $this
+                ->buildViolation('{{ message }}')
+                ->setParameter('{{ message }}', "document_number_invalid")
+                ->assertRaised();
+        }
+    }
+
+    public function provideValidateData()
+    {
+        $blacklists = [
+            new Blacklist([
+                DocumentType::PASSPORT
+            ], '11111', '22222'),
+        ];
+
+        return [
+            [
+                '12345',
+                DocumentType::PASSPORT,
+                $blacklists,
+                true
+            ],
+            [
+                '22345',
+                DocumentType::PASSPORT,
+                $blacklists,
+                false
+            ],
+        ];
+    }
+
     /**
      * @dataProvider provideIsBlacklistedData
      */
@@ -18,8 +73,7 @@ class NotInBlacklistValidatorTest extends TestCase
         $documentType,
         $blacklists,
         $expected
-    )
-    {
+    ) {
 
         $isBlacklistedReflection = new ReflectionMethod(NotInBlacklistValidator::class, 'isBlacklisted');
         $isBlacklistedReflection->setAccessible(true);

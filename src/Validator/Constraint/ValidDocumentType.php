@@ -5,6 +5,7 @@ namespace App\Validator\Constraint;
 use App\Document\DocumentType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
+use App\Util\Date;
 
 class ValidDocumentType extends Constraint
 {
@@ -16,8 +17,7 @@ class ValidDocumentType extends Constraint
 
     public function __construct(array $options = null)
     {
-        if (
-            is_array($options)
+        if (is_array($options)
             && array_key_exists('types', $options)
             && !is_array($options['types'])
         ) {
@@ -26,8 +26,18 @@ class ValidDocumentType extends Constraint
 
         foreach ($options['types'] as $key => $type) {
             if (!$type instanceof DocumentType) {
-                throw new InvalidOptionsException('The element at #' . $key . '("types") option is not an instance of "' . DocumentType::class . '".', $options);
+                throw new InvalidOptionsException(
+                    'The element at #' . $key . '("types") option is not an instance of "' . DocumentType::class . '".',
+                    $options
+                );
             }
+        }
+
+        if (is_array($options)
+            && array_key_exists('issueDate', $options)
+            && !Date::isValid($options['issueDate'])
+        ) {
+            throw new InvalidOptionsException('Option "issueDate" is not in format "Y-m-d"', $options);
         }
 
         parent::__construct($options);

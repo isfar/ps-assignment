@@ -17,7 +17,6 @@ class NotInBlacklistTest extends TestCase
             'blacklists' => "Not an array",
             'documentType' => DocumentType::PASSPORT,
         ]);
-
     }
 
     public function testInvalidBlacklistsTriggersException()

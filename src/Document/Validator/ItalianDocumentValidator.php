@@ -11,7 +11,7 @@ class ItalianDocumentValidator extends AbstractDocumentValidator
     public function __construct(
         StorageInterface $storage
     ) {
-        parent::__construct($storage);    
+        parent::__construct($storage);
 
         parent::setWorkdays(array_merge(parent::getWorkdays(), [
             new Weekdays([ Day::SAT ], '2019-01-01', '2019-01-31')

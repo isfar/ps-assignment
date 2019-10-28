@@ -16,7 +16,6 @@ class ValidDocumentTypeTest extends TestCase
             'types' => "Not an array",
             'issueDate' => '2014-01-01',
         ]);
-
     }
 
     public function testInvalidTypesTriggersException()

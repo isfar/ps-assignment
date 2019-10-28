@@ -12,6 +12,12 @@ class ValidityPeriod
 
     private $period;
 
+    /**
+     * @param int $period
+     * @param array $documentTypes array containing instances of strings
+     * @param string $startDate
+     * @param string $endDate
+     */
     public function __construct(
         int $period,
         array $documentTypes = null,
@@ -20,8 +26,8 @@ class ValidityPeriod
     ) {
         $this->period = $period;
         $this->documentTypes = $documentTypes;
-        $this->startDate = $startDate;        
-        $this->endDate = $endDate;        
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function setDocumentTypes(array $types): self

@@ -29,8 +29,7 @@ class ValidDocumentTypeValidator extends ConstraintValidator
             $validTill = $type->getValidTill();
 
             if ($documentType === $type->getType()) {
-                if (
-                    ($validFrom && $validTill && $issueDate >= $validFrom && $issueDate <= $validTill)
+                if (($validFrom && $validTill && $issueDate >= $validFrom && $issueDate <= $validTill)
                     || ($validFrom && !$validTill && $issueDate >= $validFrom)
                     || (!$validFrom && $validTill && $issueDate <= $validTill)
                     || (!$validFrom && !$validTill)

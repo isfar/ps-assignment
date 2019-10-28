@@ -4,6 +4,7 @@ namespace App\Validator\Constraint;
 
 use App\Document\DocumentType;
 use App\Document\ValidityPeriod;
+use App\Util\Date;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
 
@@ -23,16 +24,14 @@ class NotExpired extends Constraint
 
     public function __construct(array $options)
     {
-        if (
-            is_array($options)
+        if (is_array($options)
             && array_key_exists('today', $options)
-            && !preg_match("/^\d{4}-\d{2}-\d{2}$/", $options['today'])
+            && !Date::isValid($options['today'])
         ) {
             throw new InvalidOptionsException('Option "today" is not in format "Y-m-d"', $options);
         }
 
-        if (
-            is_array($options)
+        if (is_array($options)
             && array_key_exists('periods', $options)
             && !is_array($options['periods'])
         ) {
@@ -41,12 +40,15 @@ class NotExpired extends Constraint
 
         foreach ($options['periods'] as $key => $validityPeriod) {
             if (!$validityPeriod instanceof ValidityPeriod) {
-                throw new InvalidOptionsException('Element in "periods"#' . $key . ' is not an instance of "' . ValidityPeriod::class . '"', $options);
+                throw new InvalidOptionsException(
+                    'Element in "periods"#' . $key . ' is not an instance of "' . ValidityPeriod::class . '"',
+                    $options
+                );
             }
         }
 
-        if (
-            is_array($options)
+
+        if (is_array($options)
             && array_key_exists('documentType', $options)
             && !in_array($options['documentType'], DocumentType::$list)
         ) {

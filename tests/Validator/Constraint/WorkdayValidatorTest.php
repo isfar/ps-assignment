@@ -3,6 +3,7 @@
 namespace App\Tests\Validator\Constraint;
 
 use App\Document\Weekdays;
+use App\Util\Day;
 use App\Validator\Constraint\Workday;
 use App\Validator\Constraint\WorkdayValidator;
 use ReflectionMethod;
@@ -62,8 +63,7 @@ class WorkdayValidatorTest extends ConstraintValidatorTestCase
         $date,
         $workdays,
         $expected
-    )
-    {
+    ) {
         $isDateOnWorkdayReflection = new ReflectionMethod(
             WorkdayValidator::class,
             'isDateOnWorkday'
@@ -80,37 +80,42 @@ class WorkdayValidatorTest extends ConstraintValidatorTestCase
         ]);
 
         $this->assertEquals($expected, $output);
-
     }
 
     public function provideIsDateOnWorkdayData()
     {
+        $weekdays = [
+            Day::MON,
+            Day::TUE,
+            Day::WED,
+            Day::THU,
+            Day::FRI,
+        ];
+
         return [
             [
                 '2019-10-26',
                 [
-                    new Weekdays([ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'])
+                    new Weekdays($weekdays)
                 ],
                 false
             ],
             [
                 '2019-10-26',
                 [
-                    new Weekdays([ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri']),
-                    new Weekdays([ 'Sat' ], '2019-01-01', '2019-12-31'),
+                    new Weekdays($weekdays),
+                    new Weekdays([ Day::SAT ], '2019-01-01', '2019-12-31'),
                 ],
                 true
             ],
             [
                 '2019-10-26',
                 [
-                    new Weekdays([ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri']),
-                    new Weekdays([ 'Sat' ], '2019-01-01', '2019-02-31'),
+                    new Weekdays($weekdays),
+                    new Weekdays([ Day::SAT ], '2019-01-01', '2019-02-31'),
                 ],
                 false
             ],
         ];
     }
-
 }
-

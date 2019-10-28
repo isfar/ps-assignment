@@ -18,7 +18,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @dataProvider provideTestCalculatePeriod
+     * @dataProvider provideCalculatePeriodData
      */
     public function testCalculatePeriod(
         $issueDate,
@@ -44,15 +44,14 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
         ]);
 
         $this->assertEquals($expected, $output);
-
     }
 
-    public function provideTestCalculatePeriod()
+    public function provideCalculatePeriodData()
     {
         return [
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(5),
                 ],
@@ -60,25 +59,25 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
             ],
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(5),
-                    new ValidityPeriod(10, ['passport'], '2010-01-01'),
+                    new ValidityPeriod(10, [ DocumentType::PASSPORT ], '2010-01-01'),
                 ],
                 10
             ],
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
-                    new ValidityPeriod(10, ['passport'], '2010-01-01'),
+                    new ValidityPeriod(10, [ DocumentType::PASSPORT ], '2010-01-01'),
                     new ValidityPeriod(5),
                 ],
                 10
             ],
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(10, null, '2010-01-01'),
                     new ValidityPeriod(5),
@@ -87,7 +86,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
             ],
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(10, null, null, '2010-10-10'),
                     new ValidityPeriod(5),
@@ -96,7 +95,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
             ],
             [
                 '2012-10-23',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(10, null, '2010-10-10', '2030-10-10'),
                     new ValidityPeriod(5),
@@ -107,7 +106,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
                 '2012-10-23',
                 'identity_card',
                 [
-                    new ValidityPeriod(10, [ 'passport' ], '2010-01-01'),
+                    new ValidityPeriod(10, [ DocumentType::PASSPORT ], '2010-01-01'),
                     new ValidityPeriod(5),
                 ],
                 5
@@ -116,7 +115,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @dataProvider provideTestIsExpired
+     * @dataProvider provideIsExpiredData
      */
     public function testIsExpired(
         string $strDate,
@@ -140,9 +139,9 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
         ]);
 
         $this->assertEquals($expected, $output);
-    }    
+    }
 
-    public function provideTestIsExpired()
+    public function provideIsExpiredData()
     {
         return [
             [ '2014-10-24', 5, true ],
@@ -153,7 +152,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @dataProvider provideTestValidate
+     * @dataProvider provideValidateData
      */
     public function testValidate(
         string $issueDate,
@@ -181,31 +180,31 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
         }
     }
 
-    public function provideTestValidate()
+    public function provideValidateData()
     {
         return [
-            [ 
-                '2017-10-25', 
+            [
+                '2017-10-25',
                 '2019-10-24',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(5)
                 ],
                 false
             ],
-            [ 
-                '2011-10-25', 
+            [
+                '2011-10-25',
                 '2019-10-24',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(5)
                 ],
                 true
             ],
-            [ 
-                '2011-10-25', 
+            [
+                '2011-10-25',
                 '2019-10-24',
-                'passport',
+                DocumentType::PASSPORT,
                 [
                     new ValidityPeriod(5),
                     new ValidityPeriod(10, null, '2010-10-10'),

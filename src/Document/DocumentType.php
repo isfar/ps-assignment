@@ -16,20 +16,28 @@ class DocumentType
         self::RESIDENCE_PERMIT,
     ];
 
+    /** @var string */
     private $type;
 
+    /** @var string */
     private $validFrom;
 
+    /** @var string */
     private $validTill;
 
+    /**
+     * @param string $type
+     * @param string $validFrom
+     * @param string $validTill
+     */
     public function __construct(
         string $type,
         string $validFrom = null,
         string $validTill = null
     ) {
-        $this->type = $type;        
-        $this->validFrom = $validFrom;        
-        $this->validTill = $validTill;        
+        $this->type = $type;
+        $this->validFrom = $validFrom;
+        $this->validTill = $validTill;
     }
 
     public function getType(): string

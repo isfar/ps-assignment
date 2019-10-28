@@ -14,8 +14,7 @@ class Workday extends Constraint
 
     public function __construct(?array $options = null)
     {
-        if (
-            is_array($options)
+        if (is_array($options)
             && array_key_exists('workdays', $options)
             && !is_array($options['workdays'])
         ) {
@@ -24,7 +23,10 @@ class Workday extends Constraint
 
         foreach ($options['workdays'] as $key => $workdays) {
             if (!$workdays instanceof Weekdays) {
-                throw new InvalidOptionsException('The element at #' . $key . '("workdays") option is not an instance of "' . Weekdays::class . '".', $options);
+                throw new InvalidOptionsException(
+                    'The element at #' . $key . '("workdays") option is not an instance of "' . Weekdays::class . '".',
+                    $options
+                );
             }
         }
 

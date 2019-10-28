@@ -8,7 +8,6 @@ use App\Storage\StorageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Validation;
@@ -23,27 +22,21 @@ class IdentificationRequestProcessCommand extends Command
     /** @var DocumentValidatorManager */
     private $documentValidators;
 
-    /** @var string */
-    private $inputCsvPath;
-
     public function __construct(
         StorageInterface $storage,
-        DocumentValidatorManager $documentValidators,
-        string $inputCsvPath
+        DocumentValidatorManager $documentValidators
     ) {
         parent::__construct();
 
         $this->storage = $storage;
         $this->documentValidators = $documentValidators;
-        $this->inputCsvPath = $inputCsvPath;
     }
 
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Document Validation')
+            ->addArgument('input_csv_file', InputArgument::REQUIRED, 'Input `csv` file location.')
         ;
     }
 
@@ -51,7 +44,18 @@ class IdentificationRequestProcessCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $csv = array_map('str_getcsv', file($this->inputCsvPath));
+        $inputCsvFilePath = $input->getArgument('input_csv_file');
+
+        if (!file_exists($inputCsvFilePath)) {
+            $io->error('Non existing file: ' . $inputCsvFilePath);
+            exit(1);
+        }
+
+        if ($inputCsvFilePath) {
+            $io->note(sprintf('Validating records in the file: %s', $inputCsvFilePath));
+        }
+
+        $csv = array_map('str_getcsv', file($inputCsvFilePath));
 
         $validator = Validation::createValidator();
 
@@ -85,6 +89,6 @@ class IdentificationRequestProcessCommand extends Command
             }
         }
 
-        $io->success("Sucessfully validated records in the file '{$this->inputCsvPath}'.");
+        $io->success("Sucessfully validated records in the file '{$inputCsvFilePath}'.");
     }
 }

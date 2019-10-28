@@ -51,12 +51,10 @@ class NotExpiredValidator extends ConstraintValidator
             $startDate = $period->getStartDate();
             $endDate = $period->getEndDate();
 
-            if (
-                null === $period->getDocumentTypes()
+            if (null === $period->getDocumentTypes()
                 || in_array($documentType, $period->getDocumentTypes())
             ) {
-                if (
-                    ($startDate && $endDate && $issueDate >= $startDate && $issueDate <= $endDate)
+                if (($startDate && $endDate && $issueDate >= $startDate && $issueDate <= $endDate)
                     || (!$startDate && $endDate && $issueDate <= $endDate)
                     || ($startDate && !$endDate && $issueDate >= $endDate)
                     || (!$startDate && !$endDate)

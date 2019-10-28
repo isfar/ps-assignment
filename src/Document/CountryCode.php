@@ -4,12 +4,13 @@ namespace App\Document;
 
 final class CountryCode
 {
-    const GERMAN    = 'de';
-    const SPANISH   = 'es';
-    const FRENCH    = 'fr';
-    const POLISH    = 'pl';
-    const ITALIAN   = 'it';
-    const BRITISH   = 'uk';
+    const GERMAN        = 'de';
+    const SPANISH       = 'es';
+    const FRENCH        = 'fr';
+    const POLISH        = 'pl';
+    const ITALIAN       = 'it';
+    const BRITISH       = 'uk';
+    const LITHUANIAN    = 'lt';
 
     public static $list = [
         self::GERMAN,
@@ -18,6 +19,6 @@ final class CountryCode
         self::POLISH,
         self::ITALIAN,
         self::BRITISH,
+        self::LITHUANIAN,
     ];
 }
-

@@ -25,8 +25,9 @@ class ArrayStorage implements StorageInterface
 
     public function getByOffset($key, ?int $offset): ?string
     {
-        if (! array_key_exists($key, $this->store)) 
+        if (! array_key_exists($key, $this->store)) {
             return null;
+        }
         
         $offset = $offset >= 0
             ? $offset
@@ -37,4 +38,3 @@ class ArrayStorage implements StorageInterface
             : null;
     }
 }
-

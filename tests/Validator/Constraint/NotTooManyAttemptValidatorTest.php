@@ -2,6 +2,8 @@
 
 namespace App\Tests\Validator\Constraint;
 
+use App\Document\RequestLimit;
+use App\Document\Weekdays;
 use App\Storage\ArrayStorage;
 use App\Validator\Constraint\NotTooManyAttempt;
 use App\Validator\Constraint\NotTooManyAttemptValidator;
@@ -11,7 +13,6 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
 {
-
     public function createValidator()
     {
         return new NotTooManyAttemptValidator();
@@ -28,9 +29,7 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
 
         $this->validator->validate('11111', new NotTooManyAttempt([
             'today' => '2019-10-25',
-            'maxAllowed' => 2,
-            'numWorkdays' => 5,
-            'workdays' => [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri' ],
+            'limit' => new RequestLimit(2, 5, Weekdays::DEFAULT),
             'storage' => $storage,
         ]));
 
@@ -49,9 +48,7 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
         
         $this->validator->validate('11111', new NotTooManyAttempt([
             'today' => '2019-10-25',
-            'maxAllowed' => 2,
-            'numWorkdays' => 5,
-            'workdays' => [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri' ],
+            'limit' => new RequestLimit(2, 5, Weekdays::DEFAULT),
             'storage' => $storage
         ]));
 
@@ -62,7 +59,7 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @dataProvider provideTestExceedsLimit
+     * @dataProvider provideExceedsLimitData
      */
     public function testExceedsLimit(
         $strFrom,
@@ -70,13 +67,7 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
         $expected
     ) {
         $numWorkdays = 5;
-        $workdays = [
-            'Mon',
-            'Tue',
-            'Wed',
-            'Thu',
-            'Fri',
-        ];
+        $workdays = Weekdays::DEFAULT;
 
         $notTooManyAttemptValidator = new NotTooManyAttemptValidator(new ArrayStorage());
         $exceedsLimitReflected = new ReflectionMethod(NotTooManyAttemptValidator::class, 'exceedsLimit');
@@ -92,7 +83,7 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
         $this->assertEquals($expected, $output);
     }
 
-    public function provideTestExceedsLimit()
+    public function provideExceedsLimitData()
     {
         return [
             [ '2019-10-19', '2019-10-25', false ],
@@ -101,4 +92,3 @@ class NotTooManyAttemptValidatorTest extends ConstraintValidatorTestCase
         ];
     }
 }
-

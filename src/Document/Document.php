@@ -55,12 +55,13 @@ class Document
             'id' => $this->getId(),
             'issueDate' => $this->getIssueDate(),
             'ownerId' => $this->getOwnerId(),
+            'countryCode' => $this->getCountryCode(),
         ];
     }
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId(): ?string
     {
         return $this->id;
@@ -69,7 +70,7 @@ class Document
     /**
      * Set the value of id
      * @return  self
-     */ 
+     */
     public function setId(?srting $id): self
     {
         $this->id = $id;
@@ -78,7 +79,7 @@ class Document
 
     /**
      * Get the value of ownerId
-     */ 
+     */
     public function getOwnerId(): ?string
     {
         return $this->ownerId;
@@ -87,7 +88,7 @@ class Document
     /**
      * Set the value of ownerId
      * @return  self
-     */ 
+     */
     public function setOwnerId(?string $ownerId): self
     {
         $this->ownerId = $ownerId;
@@ -96,7 +97,7 @@ class Document
 
     /**
      * Get the value of type
-     */ 
+     */
     public function getType(): ?string
     {
         return $this->type;
@@ -105,7 +106,7 @@ class Document
     /**
      * Set the value of type
      * @return  self
-     */ 
+     */
     public function setType(?string $type): self
     {
         $this->type = $type;
@@ -114,7 +115,7 @@ class Document
 
     /**
      * Get the value of requestDate
-     */ 
+     */
     public function getRequestDate(): ?string
     {
         return $this->requestDate;
@@ -123,7 +124,7 @@ class Document
     /**
      * Set the value of requestDate
      * @return  self
-     */ 
+     */
     public function setRequestDate(?string $requestDate): self
     {
         $this->requestDate = $requestDate;
@@ -132,7 +133,7 @@ class Document
 
     /**
      * Get the value of issueDate
-     */ 
+     */
     public function getIssueDate(): ?string
     {
         return $this->issueDate;
@@ -141,7 +142,7 @@ class Document
     /**
      * Set the value of issueDate
      * @return  self
-     */ 
+     */
     public function setIssueDate(?string $issueDate): self
     {
         $this->issueDate = $issueDate;
@@ -150,7 +151,7 @@ class Document
 
     /**
      * Get the value of countryCode
-     */ 
+     */
     public function getCountryCode(): ?string
     {
         return $this->countryCode;
@@ -160,7 +161,7 @@ class Document
      * Set the value of countryCode
      *
      * @return  self
-     */ 
+     */
     public function setCountryCode(?string $countryCode): self
     {
         $this->countryCode = $countryCode;

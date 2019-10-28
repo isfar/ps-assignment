@@ -21,7 +21,6 @@ class NotExpiredTest extends TestCase
             ],
             'documentType' => 'passport',
         ]);
-        
     }
 
     public function testNonArrayPeriodTriggersException()
@@ -33,7 +32,6 @@ class NotExpiredTest extends TestCase
             'periods' => 'Not an array',
             'documentType' => 'passport',
         ]);
-        
     }
 
     public function testInvalidPeriodTriggersException()
@@ -47,7 +45,6 @@ class NotExpiredTest extends TestCase
             ],
             'documentType' => 'passport',
         ]);
-        
     }
 
     public function testInvalidDocumentTypeTriggersException()
@@ -59,7 +56,6 @@ class NotExpiredTest extends TestCase
             'periods' => new ValidityPeriod(5, DocumentType::$list),
             'documentType' => 'Invalid document type',
         ]);
-        
     }
 
     public function testOptionsCanBeSet()
@@ -81,5 +77,4 @@ class NotExpiredTest extends TestCase
         $this->assertEquals($today, $notExpired->today);
         $this->assertEquals($documentType, $notExpired->documentType);
     }
-
 }

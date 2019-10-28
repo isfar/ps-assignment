@@ -12,4 +12,3 @@ class Day
     const WED = 'Wed';
     const THU = 'Thu';
 }
-
