@@ -12,6 +12,21 @@ Follow the steps to run the Symfony `Command`.
 7. `docker run -it isfarsifat bash`
 8. `bin/console identification-requests:process data/input.csv`
 
+## Run the unit tests
+
+```
+$docker run -it isfarsifat bash 
+root@3188a4b60ef5:/var/www/app# vendor/bin/phpunit
+PHPUnit 8.4.1 by Sebastian Bergmann and contributors.
+
+................................................................. 65 / 87 ( 74%)
+......................                                            87 / 87 (100%)
+
+Time: 93 ms, Memory: 6.00 MB
+
+OK (87 tests, 115 assertions)
+
+```
 
 ## `TODO`s
 
