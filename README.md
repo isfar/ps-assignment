@@ -1,6 +1,19 @@
 # PS Validation Assignment
 
-## How to run the `Command`
+<!-- toc -->
+
+- [Framework/Libraries](#FrameworkLibraries)
+- [How to run the Command](#How-to-run-the-Command)
+- [Run the unit tests](#Run-the-unit-tests)
+- [TODOs](#TODOs)
+
+<!-- tocstop -->
+
+## Framework/Libraries
+
+I used `Symfony 4.3.5 (Latest LTS)` for this project. For valiation I used Syfony validator.
+
+## How to run the Command
 
 Follow the steps to run the Symfony `Command`.
 1. `git clone https://github.com/isfar/ps-assignment.git`
@@ -28,7 +41,7 @@ OK (87 tests, 115 assertions)
 
 ```
 
-## `TODO`s
+## TODOs
 
 As the time was short, I couldn't do more than what I have done in these 4-5 days. There are still a great room for improvement. The worth mentionings are--
 
