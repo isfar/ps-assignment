@@ -6,6 +6,7 @@ use App\Document\RequestLimit;
 use App\Storage\StorageInterface;
 use Symfony\Component\Validator\Constraint;
 use App\Util\Date;
+use Symfony\Component\Validator\Exception\InvalidOptionsException;
 
 class NotTooManyAttempt extends Constraint
 {

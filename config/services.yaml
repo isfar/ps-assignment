@@ -4,14 +4,124 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    document_validators:
-        de: App\Document\Validator\GermanDocumentValidator
-        es: App\Document\Validator\SpanishDocumentValidator
-        fr: App\Document\Validator\FrenchDocumentValidator
-        pl: App\Document\Validator\PolishDocumentValidator
-        it: App\Document\Validator\ItalianDocumentValidator
-        uk: App\Document\Validator\BritishDocumentValidator
-        lt: App\Document\Validator\LithuanianDocumentValidator
+    document_validators.active_validators:
+        - de
+        - es
+        - fr
+        - it
+        - pl
+        - lt
+        - uk
+    document_validators.default.document_types:
+        - { type: passport }
+        - { type: identity_card }
+        - { type: residence_permit }
+    document_validators.default.date_format: 'Y-m-d'
+    document_validators.default.request_limit: 
+        max_attempts: 2
+        max_workdays: 5
+        workdays: [ Mon, Tue, Wed, Thu, Fri ] 
+    document_validators.default.validity_period:
+        year: 5
+        document_types: [ passport, identity_card, residence_permit ]
+    document_validators.default.weekday:
+        days: [ Mon, Tue, Wed, Thu, Fri ] 
+    document_validators.default.length: { length: 8 }
+
+    document_validators.de:
+        document_types: '%document_validators.default.document_types%'
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - { year: 5, document_types: [ passport, identity_card, residence_permit ], till: '2009-12-31' }
+            - { year: 10, document_types: [ identity_card ], from: '2010-01-01' }
+        workdays:
+            - '%document_validators.default.weekday%'
+        lengths:
+            - '%document_validators.default.length%'
+
+    document_validators.es:
+        document_types: '%document_validators.default.document_types%'
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - { year: 5, document_types: [ identity_card, residence_permit ] }
+            - { year: 5, document_types: [ passport ], till: '2013-02-13' }
+            - { year: 15, document_types: [ passport ], till: '2013-02-14' }
+        workdays:
+            - '%document_validators.default.weekday%'
+        lengths:
+            - '%document_validators.default.length%'
+        blacklists:
+            - { document_types: [ passport ], min: '1009232', max: '2398398' }
+
+    document_validators.fr:
+        document_types:
+            - { type: passport }
+            - { type: identity_card }
+            - { type: residence_permit }
+            - { type: driving_license }
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            -  { year: 5, document_types: [ passport, identity_card, residence_permit, driving_license ] }
+        workdays:
+            - '%document_validators.default.weekday%'
+        lengths:
+            - '%document_validators.default.length%'
+
+    document_validators.pl:
+        document_types:
+            - { type: passport }
+            - { type: identity_card }
+            - { type: residence_permit, from: '2015-06-01' }
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - { year: 5, document_types: [ passport, identity_card, residence_permit ], till: '2009-12-31' }
+            - { year: 10, document_types: [ identity_card ], from: '2010-01-01' }
+        workdays:
+            - '%document_validators.default.weekday%'
+        lengths:
+            - { length: 9, document_types: [ passport, residence_permit ] }
+            - { length: 8, document_types: [ identity_card ], till: '2018-08-31' }
+            - { length: 10, document_types: [ identity_card ], from: '2018-09-01' }
+
+    document_validators.it:
+        document_types: '%document_validators.default.document_types%'
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - '%document_validators.default.validity_period%'
+        workdays:
+            - '%document_validators.default.weekday%'
+            - { days: [ Sat ], from: '2019-01-01', till: '2019-01-31' }
+        lengths:
+            - '%document_validators.default.length%'
+
+    document_validators.lt:
+        document_types: '%document_validators.default.document_types%'
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - '%document_validators.default.validity_period%'
+        workdays:
+            - '%document_validators.default.weekday%'
+        lengths:
+            - '%document_validators.default.length%'
+
+    document_validators.uk:
+        document_types:
+            - { type: passport, from: '2019-01-01' }
+        date_format: '%document_validators.default.date_format%'
+        request_limit: '%document_validators.default.request_limit%'
+        validity_periods:
+            - '%document_validators.default.validity_period%'
+        workdays:
+            - '%document_validators.default.weekday%'
+            - { days: [ Sat ], from: '2019-01-01', till: '2019-01-31' }
+        lengths:
+            - '%document_validators.default.length%'
 
 services:
     # default configuration for services in *this* file
@@ -34,34 +144,18 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Storage\StorageInterface:
+    App\Controller\TestController:
+        arguments:
+            $validator: '@app.document_validator_manager'
+
+    app.storage.array_storage:
         class: App\Storage\ArrayStorage
         shared: true
-    
-    App\Document\Validator\DocumentValidatorManager:
-        factory: ['App\Document\Validator\DocumentValidatorManagerFactory', 'create']
+
+    app.document_validator_manager:
+        class: App\Document\Validator\DocumentValidatorManager
+
+    App\Command\IdentificationRequestProcessCommand:
         arguments:
-            $config: '%document_validators%'
-
-    App\Document\Validator\GermanDocumentValidator:
-        public: true
-
-    App\Document\Validator\SpanishDocumentValidator:
-        public: true
-
-    App\Document\Validator\FrenchDocumentValidator:
-        public: true
-
-    App\Document\Validator\PolishDocumentValidator:
-        public: true
-
-    App\Document\Validator\ItalianDocumentValidator:
-        public: true
-
-    App\Document\Validator\BritishDocumentValidator:
-        public: true
-    
-    App\Document\Validator\LithuanianDocumentValidator:
-        public: true
-        
-    
+            $storage: '@app.storage.array_storage' 
+            $documentValidators: '@app.document_validator_manager'

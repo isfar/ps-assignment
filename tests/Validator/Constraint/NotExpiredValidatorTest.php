@@ -61,7 +61,8 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
                 '2012-10-23',
                 DocumentType::PASSPORT,
                 [
-                    new ValidityPeriod(5),
+                    new ValidityPeriod(5, [ DocumentType::IDENTITY_CARD, DocumentType::RESIDENCE_PERMIT ]),
+                    new ValidityPeriod(5, [ DocumentType::PASSPORT ], null, '2009-12-31'),
                     new ValidityPeriod(10, [ DocumentType::PASSPORT ], '2010-01-01'),
                 ],
                 10
@@ -206,7 +207,7 @@ class NotExpiredValidatorTest extends ConstraintValidatorTestCase
                 '2019-10-24',
                 DocumentType::PASSPORT,
                 [
-                    new ValidityPeriod(5),
+                    new ValidityPeriod(5, null, null, '2010-10-09'),
                     new ValidityPeriod(10, null, '2010-10-10'),
                 ],
                 false

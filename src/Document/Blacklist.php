@@ -14,7 +14,7 @@ class Blacklist
     private $max;
 
     /**
-     * @param array $documentTypes  array of instances of DocumentType
+     * @param array $documentTypes  array of instances of strings
      * @param string $min optional
      * @param string $max optional
      */

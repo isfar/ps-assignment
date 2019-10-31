@@ -45,8 +45,6 @@ class NotExpiredValidator extends ConstraintValidator
         string $documentType,
         array $periods
     ): int {
-        $intPeriod = 0;
-
         foreach ($periods as $period) {
             $startDate = $period->getStartDate();
             $endDate = $period->getEndDate();
@@ -59,11 +57,11 @@ class NotExpiredValidator extends ConstraintValidator
                     || ($startDate && !$endDate && $issueDate >= $endDate)
                     || (!$startDate && !$endDate)
                 ) {
-                    $intPeriod = $period->getPeriod() > $intPeriod ? $period->getPeriod() : $intPeriod;
+                    return $period->getPeriod();
                 }
             }
         } // end foreach
 
-        return $intPeriod;
+        return 0;
     }
 }
