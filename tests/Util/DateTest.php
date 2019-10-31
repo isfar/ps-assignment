@@ -23,7 +23,7 @@ class DateTest extends TestCase
     {
         return [
             ['1900-01-01', true],
-            ['1700-01-01', false],
+            ['1700-01-01', true],
             ['1905-1-01', true],
             ['1905-1-35', false],
             ['1905-13-31', false],
