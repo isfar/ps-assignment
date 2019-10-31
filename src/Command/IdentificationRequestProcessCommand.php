@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Document\Document;
+use App\Document\Validator\ConstraintBuilderManager;
 use App\Document\Validator\DocumentValidatorManager;
 use App\Storage\StorageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -20,16 +21,16 @@ class IdentificationRequestProcessCommand extends Command
     private $storage;
 
     /** @var DocumentValidatorManager */
-    private $documentValidators;
+    private $constraintBuilders;
 
     public function __construct(
         StorageInterface $storage,
-        DocumentValidatorManager $documentValidators
+        ConstraintBuilderManager $constraintBuilders
     ) {
         parent::__construct();
 
         $this->storage = $storage;
-        $this->documentValidators = $documentValidators;
+        $this->constraintBuilders = $constraintBuilders;
     }
 
     protected function configure()
@@ -69,9 +70,9 @@ class IdentificationRequestProcessCommand extends Command
                 $record[1]
             );
 
-            $documentValidator = $this->documentValidators->get($document->getCountryCode());
+            $constraintBuilder = $this->constraintBuilders->get($document->getCountryCode());
 
-            $violations = $documentValidator->validate($document, $validator);
+            $violations = $validator->validate($document->toArray(), $constraintBuilder->build($document));
 
             $this->storage->add($document->getOwnerId(), $document->getRequestDate());
 

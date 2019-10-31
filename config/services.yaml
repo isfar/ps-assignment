@@ -141,10 +141,10 @@ services:
         class: App\Storage\ArrayStorage
         shared: true
 
-    app.document_validator_manager:
-        class: App\Document\Validator\DocumentValidatorManager
+    app.document.constraint_builder_manager:
+        class: App\Document\Validator\ConstraintBuilderManager
 
     App\Command\IdentificationRequestProcessCommand:
         arguments:
             $storage: '@app.storage.array_storage' 
-            $documentValidators: '@app.document_validator_manager'
+            $constraintBuilders: '@app.document.constraint_builder_manager'

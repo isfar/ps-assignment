@@ -12,10 +12,8 @@ use App\Validator\Constraint\ValidLength;
 use App\Validator\Constraint\Workday;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class DocumentValidator implements DocumentValidatorInterface
+class ConstraintBuilder implements ConstraintBuilderInterface
 {
     /** @var Document */
     private $document;
@@ -34,15 +32,9 @@ class DocumentValidator implements DocumentValidatorInterface
         $this->config   = $config;
     }
 
-    public function validate(Document $document, ValidatorInterface $validator): ConstraintViolationListInterface
+    public function build(Document $document)
     {
         $this->setDocument($document);
-
-        return $validator->validate($document->toArray(), $this->getConstraints());
-    }
-
-    private function getConstraints(): array
-    {
         $today = date($this->getConfig()->getDateFormat());
 
         return [

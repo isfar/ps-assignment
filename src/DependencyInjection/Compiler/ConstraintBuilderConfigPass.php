@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class DocumentValidatorConfigPass implements CompilerPassInterface
+class ConstraintBuilderConfigPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -26,10 +26,10 @@ class DocumentValidatorConfigPass implements CompilerPassInterface
                     ConfigFactory::class,
                     'create'
                 ])
-                ->addTag('app.document_validator.config')
+                ->addTag('app.document.constraint_builder.config')
                 ;
 
-            $container->setDefinition("document_validators.{$countryCode}.config", $definition);
+            $container->setDefinition("app.document.constraint_builder.{$countryCode}.config", $definition);
         }
     }
 }

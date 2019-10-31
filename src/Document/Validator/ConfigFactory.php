@@ -21,8 +21,8 @@ class ConfigFactory
             $documentTypes = array_map(function ($type) {
                 return new DocumentType(
                     $type['type'],
-                    $type['from']  ?? null,
-                    $type['till']  ?? null
+                    $type['from'] ?? null,
+                    $type['till'] ?? null
                 );
             }, $config['document_types']);
         }
@@ -46,8 +46,8 @@ class ConfigFactory
                 return new ValidityPeriod(
                     $period['year'],
                     $period['document_types']  ?? null,
-                    $period['from']  ?? null,
-                    $period['till']  ?? null
+                    $period['from'] ?? null,
+                    $period['till'] ?? null
                 );
             }, $config['validity_periods']);
         }
@@ -58,8 +58,8 @@ class ConfigFactory
             $workdays = array_map(function ($weekdays) {
                 return new Weekdays(
                     $weekdays['days'],
-                    $weekdays['from']  ?? null,
-                    $weekdays['till']  ?? null
+                    $weekdays['from'] ?? null,
+                    $weekdays['till'] ?? null
                 );
             }, $config['workdays']);
         }
@@ -71,8 +71,8 @@ class ConfigFactory
                 return new Length(
                     $length['length'] + 0,
                     $length['document_types']  ?? null,
-                    $length['from']  ?? null,
-                    $length['till']  ?? null
+                    $length['from'] ?? null,
+                    $length['till'] ?? null
                 );
             }, $config['lengths']);
         }
@@ -83,8 +83,8 @@ class ConfigFactory
             $blacklists = array_map(function ($blacklist) {
                 return new Blacklist(
                     $blacklist['document_types'],
-                    $blacklist['min']  ?? null,
-                    $blacklist['max']  ?? null
+                    $blacklist['min'] ?? null,
+                    $blacklist['max'] ?? null
                 );
             }, $config['blacklists']);
         }

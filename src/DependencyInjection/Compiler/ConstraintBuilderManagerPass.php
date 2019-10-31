@@ -6,11 +6,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class DocumentValidatorManagerPass implements CompilerPassInterface
+class ConstraintBuilderManagerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $managerDefinitionId = 'app.document_validator_manager';
+        $managerDefinitionId = 'app.document.constraint_builder_manager';
 
         if (!$container->has($managerDefinitionId)) {
             return;
@@ -18,11 +18,11 @@ class DocumentValidatorManagerPass implements CompilerPassInterface
 
         $definition = $container->findDefinition($managerDefinitionId);
 
-        $taggedServices = $container->findTaggedServiceIds('app.document_validator');
+        $taggedServices = $container->findTaggedServiceIds('app.document.constraint_builder');
 
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall('register', [
-                explode('.', $id)[1],
+                explode('.', $id)[3],
                 new Reference($id)
             ]);
         }

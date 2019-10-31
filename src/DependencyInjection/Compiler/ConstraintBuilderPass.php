@@ -2,13 +2,13 @@
 
 namespace App\DependencyInjection\Compiler;
 
-use App\Document\Validator\DocumentValidator;
+use App\Document\Validator\ConstraintBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class DocumentValidatorPass implements CompilerPassInterface
+class ConstraintBuilderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -17,14 +17,14 @@ class DocumentValidatorPass implements CompilerPassInterface
         $countryCodes = $container->getParameter('document_validators.active_validators');
 
         foreach ($countryCodes as $countryCode) {
-            $definition = new Definition(DocumentValidator::class, [
+            $definition = new Definition(ConstraintBuilder::class, [
                 new Reference('app.storage.array_storage'),
-                new Reference("document_validators.{$countryCode}.config")
+                new Reference("app.document.constraint_builder.{$countryCode}.config")
             ]);
 
-            $definition->addTag('app.document_validator');
+            $definition->addTag('app.document.constraint_builder');
 
-            $container->setDefinition("document_validators.{$countryCode}", $definition);
+            $container->setDefinition("app.document.constraint_builder.{$countryCode}", $definition);
         }
     }
 }

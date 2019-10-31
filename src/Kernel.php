@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\DependencyInjection\Compiler\DocumentValidatorConfigPass;
-use App\DependencyInjection\Compiler\DocumentValidatorManagerPass;
-use App\DependencyInjection\Compiler\DocumentValidatorPass;
+use App\DependencyInjection\Compiler\ConstraintBuilderConfigPass;
+use App\DependencyInjection\Compiler\ConstraintBuilderManagerPass;
+use App\DependencyInjection\Compiler\ConstraintBuilderPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -56,8 +56,8 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new DocumentValidatorConfigPass());
-        $container->addCompilerPass(new DocumentValidatorPass());
-        $container->addCompilerPass(new DocumentValidatorManagerPass);
+        $container->addCompilerPass(new ConstraintBuilderConfigPass());
+        $container->addCompilerPass(new ConstraintBuilderPass());
+        $container->addCompilerPass(new ConstraintBuilderManagerPass());
     }
 }
