@@ -4,7 +4,6 @@ namespace App\Document\Validator;
 
 use App\Document\Document;
 use App\Storage\StorageInterface;
-use App\Validator\Constraint\InArray;
 use App\Validator\Constraint\NotExpired;
 use App\Validator\Constraint\NotInBlacklist;
 use App\Validator\Constraint\NotTooManyAttempt;
@@ -12,6 +11,7 @@ use App\Validator\Constraint\ValidDocumentType;
 use App\Validator\Constraint\ValidLength;
 use App\Validator\Constraint\Workday;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -92,8 +92,8 @@ class DocumentValidator implements DocumentValidatorInterface
                             'message' => 'request_limit_exceeded',
                         ]),
                     ],
-                    'countryCode' => new InArray([
-                        'array' => $this->getConfig()->getCountryCodes(),
+                    'countryCode' => new Choice([
+                        'choices' => $this->getConfig()->getCountryCodes(),
                         'message' => 'country_code_is_invalid',
                     ]),
                 ]
