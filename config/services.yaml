@@ -47,24 +47,24 @@ parameters:
         validity_periods:
             - { year: 5, document_types: [ identity_card, residence_permit ] }
             - { year: 5, document_types: [ passport ], till: '2013-02-13' }
-            - { year: 15, document_types: [ passport ], till: '2013-02-14' }
+            - { year: 15, document_types: [ passport ], from: '2013-02-14' }
         workdays:
             - '%document_validators.default.weekday%'
         lengths:
             - '%document_validators.default.length%'
         blacklists:
-            - { document_types: [ passport ], min: '1009232', max: '2398398' }
+            - { document_types: [ passport ], min: '50001111', max: '50009999' }
 
     document_validators.fr:
         document_types:
             - { type: passport }
             - { type: identity_card }
             - { type: residence_permit }
-            - { type: driving_license }
+            - { type: drivers_license }
         date_format: '%document_validators.default.date_format%'
         request_limit: '%document_validators.default.request_limit%'
         validity_periods:
-            -  { year: 5, document_types: [ passport, identity_card, residence_permit, driving_license ] }
+            -  { year: 5, document_types: [ passport, identity_card, residence_permit, drivers_license ] }
         workdays:
             - '%document_validators.default.weekday%'
         lengths:
@@ -78,12 +78,12 @@ parameters:
         date_format: '%document_validators.default.date_format%'
         request_limit: '%document_validators.default.request_limit%'
         validity_periods:
-            - { year: 5, document_types: [ passport, identity_card, residence_permit ], till: '2009-12-31' }
-            - { year: 10, document_types: [ identity_card ], from: '2010-01-01' }
+            - '%document_validators.default.validity_period%'
+            - { year: 10, document_types: [ residence_permit ], from: '2015-06-01' }
         workdays:
             - '%document_validators.default.weekday%'
         lengths:
-            - { length: 9, document_types: [ passport, residence_permit ] }
+            - { length: 8, document_types: [ passport, residence_permit ] }
             - { length: 8, document_types: [ identity_card ], till: '2018-08-31' }
             - { length: 10, document_types: [ identity_card ], from: '2018-09-01' }
 
