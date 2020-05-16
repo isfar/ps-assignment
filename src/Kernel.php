@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\DependencyInjection\Compiler\ConstraintBuilderConfigPass;
+use App\DependencyInjection\Compiler\ConstraintBuilderManagerPass;
+use App\DependencyInjection\Compiler\ConstraintBuilderPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -49,5 +52,12 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new ConstraintBuilderConfigPass());
+        $container->addCompilerPass(new ConstraintBuilderPass());
+        $container->addCompilerPass(new ConstraintBuilderManagerPass());
     }
 }
